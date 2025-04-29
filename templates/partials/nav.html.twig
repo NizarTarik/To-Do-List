@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Task List
+{% endblock %}
+
+{% block content %}
+{% block nav %}
+	<nav class="navbar">
+		<ul class="nav-links">
+			<li>
+				<a href="{{ path('tasks_index') }}">Home</a>
+			</li>
+			<li>
+				<a href="{{ path('tasks_create') }}">Create Task</a>
+			</li>
+			<li>
+				<a href="{{ path('tasks_index') }}">Task List</a>
+			</li>
+		</ul>
+	</nav>
+
+	<style>
+		/* General Styles */
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f4f4f9;
+			margin: 0;
+			padding: 0;
+		}
+
+		/* Navbar Styles */
+		.navbar {
+			background-color: #333;
+			padding: 10px;
+		}
+
+		.nav-links {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			justify-content: center;
+		}
+
+		.nav-links li {
+			margin: 0 15px;
+		}
+
+		.nav-links a {
+			text-decoration: none;
+			color: white;
+			font-size: 1.2rem;
+		}
+
+		.nav-links a:hover {
+			color: #007bff;
+			text-decoration: underline;
+		}
+	</style>
+{% endblock %}

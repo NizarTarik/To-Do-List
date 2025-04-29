@@ -1,0 +1,78 @@
+/* Container for the form */
+
+.container {
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 30%;
+}
+
+/* Form header */
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Form fields */
+form div {
+  margin-bottom: 15px;
+}
+
+/* Label styling */
+label {
+  font-size: 16px;
+  color: #333;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Input field styling */
+input[type="text"],
+input[type="date"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Styling for textarea */
+textarea {
+  height: 100px;
+}
+
+/* Submit button */
+button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Back link */
+a {
+  text-decoration: none;
+  color: #007bff;
+  font-size: 16px;
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+}
+
+a:hover {
+  color: #0056b3;
+}

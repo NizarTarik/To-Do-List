@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tasks Management
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>
+			<span style='color:red'>To-</span>
+			<span style='color:green'>do</span>
+			List</h1>
+		<table id="datatable" style='margin-top:40px'>
+			<thead>
+				<tr>
+					<th>Image</th>
+					<th>Task</th>
+					<th>Date</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for task in tasks %}
+					<tr>
+						<td>
+							{% if task.taskImage %}
+								<img src="{{ asset(task.taskImage) }}" style="width: 100px; height: auto;">
+
+							{% else %}
+								<span>No image Found</span>
+							{% endif %}
+						</td>
+						<td>{{ task.name }}
+						</td>
+						<td>
+							{{ task.date|date('Y-m-d H:i') }}
+							{% set now = "now"|date('Y-m-d H:i') %}
+							{% set diff = date(task.date).diff(date(now)) %}
+							{% if diff.invert == 0 %}
+								<b style='color:#e22626'>({{ diff.days }}
+									days Late)</b>
+							{% else %}
+								<b style='color:#199119'>({{ diff.days }}
+									days Left)</b>
+							{% endif %}
+						</td>
+
+						<td>
+							<a href="{{ path('tasks_edit', { 'id': task.id }) }}">
+								<button>Edit</button>
+							</a>
+							<!-- Delete Button -->
+							<button class="btn btn-outline-danger" onclick="confirmDelete({{ task.id }})">
+								Delete
+							</button>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="6">No tasks available.</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<div style="display:flex; justify-content:center; align-items:center;">
+			<a href="{{ path('tasks_create') }}">
+				<button style="background-color:silver; font-weight:bold; letter-spacing:1px">Create Task</button>
+			</a>
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script type="text/javascript">
+		// Jquery Table
+$(document).ready(function () {
+$('#datatable').DataTable({
+
+"lengthMenu": [
+5, 10, 20, 50
+], // Custom options for page length
+"language": {
+"sProcessing": "Traitement en cours...",
+"sLengthMenu": "Afficher _MENU_ éléments par page",
+"sZeroRecords": "Aucun élément trouvé",
+"sInfo": "Affichage de _START_ à _END_ sur _TOTAL_ éléments",
+"sInfoEmpty": "Affichage de 0 à 0 sur 0 éléments",
+"sInfoFiltered": "(filtré de _MAX_ éléments au total)",
+"sSearch": "Rechercher :",
+"oPaginate": {
+"sFirst": "Premier",
+"sPrevious": "Précédent",
+"sNext": "Suivant",
+"sLast": "Dernier"
+}
+}
+});
+});;{% for label, messages in app.flashes %}{% if label == 'success' %}Swal.fire({title: 'Success!', text: '{{ messages|join(', ') }}', icon: 'success', confirmButtonText: 'OK'});
+{% elseif label == 'error' %}
+Swal.fire({title: 'Error!', text: '{{ messages|join(', ') }}', icon: 'error', confirmButtonText: 'OK'});{% endif %}{% endfor %}function confirmDelete(id) {
+Swal.fire({
+title: 'Are you sure ?',
+text: "You wont'be able to revert this.",
+icon: 'warning',
+showCancelButton: true,
+confirmButtonColor: '#d33',
+cancelButtonColor: '#3085d6',
+confirmButtonText: 'Delete',
+cancelButtonText: 'Back'
+}).then((result) => {
+if (result.isConfirmed) {
+fetch('/tasks/delete/' + id, {
+method: 'POST', // Change to POST, not DELETE
+headers: {
+'Content-Type': 'application/json',
+'X-Requested-With': 'XMLHttpRequest'
+},
+body: JSON.stringify(
+{id: id}
+)
+}).then(response => {
+if (response.ok) {
+Swal.fire({title: 'Deleted!', text: 'Task is deleted.', icon: 'success', confirmButtonText: 'OK'}).then(() => {
+window.location.reload(); // Refresh page after deletion
+});
+} else {
+Swal.fire({title: 'Error!', text: 'Something went wrong.', icon: 'error', confirmButtonText: 'OK'});
+}
+}).catch(error => {
+Swal.fire({title: 'Error!', text: 'Something went wrong.', icon: 'error', confirmButtonText: 'OK'});
+});
+}
+});
+}
+	</script>
+{% endblock %}
